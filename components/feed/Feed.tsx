@@ -31,7 +31,9 @@ export default function Feed({ page = "people" }: FeedProps) {
         `https://api.unsplash.com/search/photos?query=${topic}&per_page=30&page=${nextPage}`,
         {
           headers: {
-            Authorization: "Client-ID YOUR_UNSPLASH_KEY",
+            Authorization:
+              "Client-ID cq6La0BAF3iV8t4LisXY1n8XORHw2nIo6Oe1CjLZiqM",
+            "Accept-Version": "v1",
           },
         }
       );
