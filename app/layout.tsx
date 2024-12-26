@@ -1,6 +1,8 @@
+// layout.tsx
+
 import type { ReactNode } from "react";
 // If you have a Navbar component, import it here:
-// import Navbar from '@/components/navbar/Navbar';
+import Navbar from "@/components/navbar/Navbar";
 
 import "./globals.css"; // Your global or Tailwind CSS
 
@@ -14,7 +16,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body>
-        {/* <Navbar /> */}
+        <Navbar />
         {children}
       </body>
     </html>
