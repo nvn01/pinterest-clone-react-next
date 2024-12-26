@@ -16,7 +16,7 @@ interface ImageType {
 }
 
 interface FeedProps {
-  page?: string; // e.g. "people", "japan", etc.
+  page?: string; // e.g., "people", "japan", etc.
 }
 
 export default function Feed({ page = "people" }: FeedProps) {
@@ -24,7 +24,7 @@ export default function Feed({ page = "people" }: FeedProps) {
   const [pageCount, setPageCount] = useState(1);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  // Just fetch data
+  // Fetch images from the Unsplash API
   const getImages = async (topic: string, nextPage: number) => {
     try {
       const response = await axios.get(
@@ -37,21 +37,23 @@ export default function Feed({ page = "people" }: FeedProps) {
           },
         }
       );
-      // Append to existing images
+      // Append new images to the existing array
       setImages((prev) => [...prev, ...response.data.results]);
       setIsLoaded(true);
     } catch (err) {
-      console.error(err);
+      console.error("Error fetching images:", err);
     }
   };
 
-  // Initial fetch
+  // Initial fetch when the component loads or page changes
   useEffect(() => {
-    getImages(page, pageCount);
+    setImages([]); // Clear previous images
+    setPageCount(1); // Reset page count
+    getImages(page, 1); // Fetch first page
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
-  // Infinite scroll
+  // Infinite scroll handler
   useEffect(() => {
     const handleScroll = () => {
       const bottomOfWindow =
@@ -59,31 +61,35 @@ export default function Feed({ page = "people" }: FeedProps) {
       if (bottomOfWindow && isLoaded) {
         const newPage = pageCount + 1;
         setPageCount(newPage);
-        setIsLoaded(false);
+        setIsLoaded(false); // Prevent multiple triggers
         getImages(page, newPage);
       }
     };
+
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, [pageCount, isLoaded, page]);
 
-  // react-masonry-css configuration
+  // Masonry grid configuration
   const breakpointColumnsObj = {
-    default: 5, // 5 columns if the screen is wide
-    1100: 4,
-    700: 3,
-    500: 2,
+    default: 5, // Default to 5 columns
+    1100: 4, // 4 columns at 1100px width
+    700: 3, // 3 columns at 700px width
+    500: 2, // 2 columns at 500px width
   };
 
   return (
     <div style={{ padding: "0 24px" }}>
       <Masonry
         breakpointCols={breakpointColumnsObj}
-        className="my-masonry-grid" // default class
-        columnClassName="my-masonry-grid_column" // default class
+        className="my-masonry-grid"
+        columnClassName="my-masonry-grid_column"
       >
-        {images.map((image) => (
-          <div key={image.id} className="stack-item">
+        {images.map((image, index) => (
+          <div
+            key={image.id || `${image.alt_description}-${index}`}
+            className="stack-item"
+          >
             <Overlay image={image} />
           </div>
         ))}
