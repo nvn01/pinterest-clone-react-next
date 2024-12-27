@@ -1,12 +1,13 @@
 "use client";
 
 import React, { PropsWithChildren } from "react";
-import clsx from "clsx"; // Optional: For conditional classNames
+import clsx from "clsx";
 
 interface ButtonProps extends PropsWithChildren {
   active?: boolean;
   bgColor?: string;
   color?: string;
+  className?: string;
 }
 
 export default function Button({
@@ -14,35 +15,40 @@ export default function Button({
   active = false,
   bgColor = "#fff",
   color = "black",
+  className,
 }: ButtonProps) {
-  // Example inline style + class combos
-  const style = {
-    backgroundColor: bgColor,
-    color,
-  };
-
-  // If you prefer Tailwind or CSS modules, replace with your approach
   return (
-    <a className="button" style={{ textDecoration: "none" }}>
+    <div
+      className={clsx(
+        "button-link",
+        {
+          "!bg-black !text-white hover:!bg-black": active,
+          "red hover:!bg-[#ca102c]": bgColor === "#e60023",
+        },
+        className
+      )}
+      style={{
+        backgroundColor: bgColor,
+        color,
+        fontSize: "16px",
+        fontWeight: 700,
+        borderRadius: "24px",
+        display: "flex",
+        height: "48px",
+        cursor: "pointer",
+        transition: "background-color 0.2s",
+      }}
+    >
       <div
-        className={clsx("button-link", {
-          active,
-          red: bgColor === "#e60023",
-        })}
-        style={style}
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: "0 16px",
+        }}
       >
-        <div style={innerDivStyle}>
-          <span>{children}</span>
-        </div>
+        <span>{children}</span>
       </div>
-    </a>
+    </div>
   );
 }
-
-// Quick inline style for demonstration
-const innerDivStyle: React.CSSProperties = {
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  padding: "0 16px",
-};

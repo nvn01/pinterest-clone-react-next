@@ -40,10 +40,15 @@ export default function PinDetailPage() {
         <div
           className="icon"
           style={{
-            width: 48,
-            height: 48,
+            width: "48px",
+            height: "48px",
             backgroundColor: "white",
             cursor: "pointer",
+            borderRadius: "50%", // Add this to make it circular
+            display: "flex", // Add this
+            alignItems: "center", // Add this
+            justifyContent: "center", // Add this
+            boxShadow: "0 0 0 1px rgb(0 0 0 / 0.1)", // Optional: adds a subtle border
           }}
           onClick={() => router.back()}
         >
@@ -85,7 +90,6 @@ export default function PinDetailPage() {
       {/* PinBox will fetch and display the single pin */}
       <PinBox pinId={id} onGetByTag={handleGetByTag} />
 
-      <h2>More Like This</h2>
       {/* Re-render Feed with new tag each time handleGetByTag is called */}
       <Feed key={visitCount} page={tag} />
     </div>

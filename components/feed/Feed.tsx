@@ -16,15 +16,21 @@ interface ImageType {
 }
 
 interface FeedProps {
-  page?: string; // e.g., "people", "japan", etc.
+  page?: string;
 }
 
 export default function Feed({ page = "people" }: FeedProps) {
   const [images, setImages] = useState<ImageType[]>([]);
   const [pageCount, setPageCount] = useState(1);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [columnWidth, setColumnWidth] = useState(230);
+  const [breakpointCols, setBreakpointCols] = useState({
+    default: 4,
+    1100: 4,
+    700: 3,
+    500: 2,
+  });
 
-  // Fetch images from the Unsplash API
   const getImages = async (topic: string, nextPage: number) => {
     try {
       const response = await axios.get(
@@ -37,7 +43,6 @@ export default function Feed({ page = "people" }: FeedProps) {
           },
         }
       );
-      // Append new images to the existing array
       setImages((prev) => [...prev, ...response.data.results]);
       setIsLoaded(true);
     } catch (err) {
@@ -45,43 +50,70 @@ export default function Feed({ page = "people" }: FeedProps) {
     }
   };
 
-  // Initial fetch when the component loads or page changes
+  // Calculate breakpoints on mount and window resize
   useEffect(() => {
-    setImages([]); // Clear previous images
-    setPageCount(1); // Reset page count
-    getImages(page, 1); // Fetch first page
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page]);
+    const calculateBreakpoints = () => {
+      const width = window.innerWidth;
+      const padding = 48; // 24px padding on each side
+      const gutter = 16;
+      const defaultCols = Math.floor((width - padding) / (230 + gutter));
 
-  // Infinite scroll handler
+      setBreakpointCols({
+        default: defaultCols,
+        1100: 4,
+        700: 3,
+        500: 2,
+      });
+
+      const minColumns = Math.floor((width - padding) / (columnWidth + gutter));
+      const actualWidth = Math.floor(
+        (width - padding - gutter * (minColumns - 1)) / minColumns
+      );
+      setColumnWidth(actualWidth);
+    };
+
+    // Only run on client side
+    if (typeof window !== "undefined") {
+      calculateBreakpoints();
+      window.addEventListener("resize", calculateBreakpoints);
+
+      return () => window.removeEventListener("resize", calculateBreakpoints);
+    }
+  }, [columnWidth]);
+
+  // Handle infinite scroll
   useEffect(() => {
     const handleScroll = () => {
+      if (typeof window === "undefined") return;
+
       const bottomOfWindow =
         window.innerHeight + window.scrollY >= document.body.offsetHeight - 30;
+
       if (bottomOfWindow && isLoaded) {
         const newPage = pageCount + 1;
         setPageCount(newPage);
-        setIsLoaded(false); // Prevent multiple triggers
+        setIsLoaded(false);
         getImages(page, newPage);
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    if (typeof window !== "undefined") {
+      window.addEventListener("scroll", handleScroll);
+      return () => window.removeEventListener("scroll", handleScroll);
+    }
   }, [pageCount, isLoaded, page]);
 
-  // Masonry grid configuration
-  const breakpointColumnsObj = {
-    default: 5, // Default to 5 columns
-    1100: 4, // 4 columns at 1100px width
-    700: 3, // 3 columns at 700px width
-    500: 2, // 2 columns at 500px width
-  };
+  // Reset and fetch images when page changes
+  useEffect(() => {
+    setImages([]);
+    setPageCount(1);
+    getImages(page, 1);
+  }, [page]);
 
   return (
-    <div style={{ padding: "0 24px" }}>
+    <div className="feed px-6">
       <Masonry
-        breakpointCols={breakpointColumnsObj}
+        breakpointCols={breakpointCols}
         className="my-masonry-grid"
         columnClassName="my-masonry-grid_column"
       >
@@ -89,6 +121,10 @@ export default function Feed({ page = "people" }: FeedProps) {
           <div
             key={image.id || `${image.alt_description}-${index}`}
             className="stack-item"
+            style={{
+              width: "100%",
+              position: "relative",
+            }}
           >
             <Overlay image={image} />
           </div>

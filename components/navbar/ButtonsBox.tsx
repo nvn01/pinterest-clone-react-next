@@ -19,17 +19,14 @@ export default function ButtonsBox() {
   const [optionsModal, setOptionsModal] = useState(false);
 
   return (
-    <div
-      className="buttons container"
-      style={{ display: "flex", gap: "5px", justifyContent: "flex-end" }}
-    >
+    <div className="buttons container flex gap-2 items-center justify-end">
       {/* 1. UPDATES BUTTON */}
       <div
-        className="icon"
+        className="icon hover:bg-gray-100 rounded-full"
         tabIndex={0}
         onFocus={() => setUpdatesModal(true)}
         onBlur={() => setUpdatesModal(false)}
-        style={iconStyle}
+        style={iconContainerStyle}
       >
         <UpdateIcon size={24} />
         <UpdatesModal show={updatesModal} />
@@ -37,31 +34,34 @@ export default function ButtonsBox() {
 
       {/* 2. INBOX BUTTON */}
       <div
-        className="icon"
+        className="icon hover:bg-gray-100 rounded-full"
         tabIndex={0}
         onFocus={() => setInboxModal(true)}
         onBlur={() => setInboxModal(false)}
-        style={iconStyle}
+        style={iconContainerStyle}
       >
         <MessageIcon size={24} />
         <InboxModal show={inboxModal} />
       </div>
 
-      {/* 3. PROFILE LINK (Equivalent to router-link to="/profile") */}
-      <Link href="/profile" className="button">
-        {/* This circle with “R” was in the Vue code: */}
-        <div className="logo" style={logoStyle}>
-          <span>R</span>
+      {/* 3. PROFILE LINK */}
+      <Link
+        href="/profile"
+        className="hover:bg-gray-100 rounded-full"
+        style={iconContainerStyle}
+      >
+        <div style={profileCircleStyle}>
+          <span style={profileTextStyle}>R</span>
         </div>
       </Link>
 
       {/* 4. OPTIONS BUTTON */}
       <div
-        className="icon"
+        className="icon hover:bg-gray-100 rounded-full"
         tabIndex={0}
         onFocus={() => setOptionsModal(true)}
         onBlur={() => setOptionsModal(false)}
-        style={iconStyle}
+        style={iconContainerStyle}
       >
         <DownIcon size={12} />
         <OptionsModal type="down" show={optionsModal}>
@@ -84,25 +84,29 @@ export default function ButtonsBox() {
   );
 }
 
-// You can swap these inline styles for Tailwind or a CSS Module
-const iconStyle: React.CSSProperties = {
-  width: 48,
-  height: 48,
+const iconContainerStyle: React.CSSProperties = {
+  width: "48px",
+  height: "48px",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  borderRadius: "100%",
   cursor: "pointer",
+  position: "relative",
 };
 
-const logoStyle: React.CSSProperties = {
-  background: "rgba(0, 0, 0, 0.06)",
-  width: 24,
-  height: 24,
-  borderRadius: "100%",
-  fontSize: 10,
-  fontWeight: 700,
+const profileCircleStyle: React.CSSProperties = {
+  width: "24px",
+  height: "24px",
+  borderRadius: "50%",
+  backgroundColor: "#efefef",
+  display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  display: "flex",
+};
+
+const profileTextStyle: React.CSSProperties = {
+  fontSize: "14px",
+  fontWeight: "600",
+  color: "#111",
+  lineHeight: "1",
 };

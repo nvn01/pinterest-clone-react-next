@@ -2,22 +2,28 @@
 
 import React from "react";
 import Link from "next/link";
-import Button from "@/components/utils/Button"; // If you already converted Button.vue
+import { usePathname } from "next/navigation";
+import Button from "@/components/utils/Button";
 
 export default function Linker() {
+  const pathname = usePathname();
+
   return (
     <div className="linker container" style={{ display: "flex", gap: 5 }}>
-      {/* Logo link to Home */}
       <Link href="/" style={logoStyle}>
         <img src="/images/logo.png" alt="Logo" width={24} height={24} />
       </Link>
 
-      {/* Nav links */}
       <Link href="/">
-        <Button bgColor="white">Home</Button>
+        <Button bgColor="white" active={pathname === "/"}>
+          Home
+        </Button>
       </Link>
+
       <Link href="/following">
-        <Button bgColor="white">Following</Button>
+        <Button bgColor="white" active={pathname === "/following"}>
+          Following
+        </Button>
       </Link>
     </div>
   );

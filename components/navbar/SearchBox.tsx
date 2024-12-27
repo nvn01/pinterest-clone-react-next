@@ -10,7 +10,13 @@ export default function SearchBox({ placeholder = "Search" }: Props) {
   return (
     <div
       className="search container"
-      style={{ flexGrow: 3, margin: "0 15px", height: 48 }}
+      style={{
+        flexGrow: 1,
+        margin: "0 15px",
+        height: 48,
+        flex: "1 1 auto",
+        display: "flex",
+      }}
     >
       <div
         className="search-box"

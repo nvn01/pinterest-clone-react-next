@@ -11,17 +11,26 @@ body {
 }
 
 .my-masonry-grid {
-  display: -webkit-box; /* Not needed if autoprefixing */
-  display: -ms-flexbox; /* Not needed if autoprefixing */
   display: flex;
-  margin-left: -16px; /* gutter size offset */
+  margin-left: -16px;
   width: auto;
 }
+
 .my-masonry-grid_column {
-  padding-left: 16px; /* gutter size */
+  padding-left: 16px;
   background-clip: padding-box;
 }
 
 .stack-item {
-  margin-bottom: 16px; /* space between items vertically */
+  margin-bottom: 16px;
+  break-inside: avoid;
+}
+
+/* Optional: Add smooth transitions for hover effects */
+.stack-item img {
+  transition: transform 0.2s ease-in-out;
+}
+
+.stack-item:hover img {
+  transform: scale(1.02);
 }
