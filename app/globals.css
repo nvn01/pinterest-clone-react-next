@@ -1,9 +1,7 @@
-/* globals.css (Tailwind Example) */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* If you have leftover global styles from style.css, put them here: */
 html,
 body {
   margin: 0;
@@ -24,13 +22,56 @@ body {
 .stack-item {
   margin-bottom: 16px;
   break-inside: avoid;
+  position: relative;
 }
 
-/* Optional: Add smooth transitions for hover effects */
+/* Enhanced hover effects with proper z-indexing */
+.stack-item .board-selector,
+.stack-item .save-button {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease-in-out;
+  z-index: 20;
+}
+
+.stack-item:hover .board-selector,
+.stack-item:hover .save-button {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Image and overlay styles */
 .stack-item img {
-  transition: transform 0.2s ease-in-out;
+  transition: brightness 0.2s ease-in-out;
+  position: relative;
+  z-index: 10;
 }
 
 .stack-item:hover img {
-  transform: scale(1.02);
+  brightness: 0.95;
+}
+
+/* Modal z-index hierarchy */
+.modal {
+  z-index: 30;
+}
+
+.save-modal-container {
+  z-index: 40;
+}
+
+/* Ensure proper stacking context */
+.stack-item {
+  isolation: isolate;
+}
+
+/* Ensure modals don't interfere with clicking */
+[role="dialog"] {
+  z-index: 50;
+  position: relative;
+}
+
+/* Prevent hover state issues */
+.stack-item:hover {
+  z-index: 1;
 }

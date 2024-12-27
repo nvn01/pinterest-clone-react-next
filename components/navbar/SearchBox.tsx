@@ -9,11 +9,12 @@ interface Props {
 export default function SearchBox({ placeholder = "Search" }: Props) {
   return (
     <div
-      className="search container"
+      className="search"
       style={{
         flexGrow: 1,
-        margin: "0 15px",
+        margin: "0 8px",
         height: 48,
+        minWidth: 0,
         flex: "1 1 auto",
         display: "flex",
       }}
@@ -35,7 +36,7 @@ export default function SearchBox({ placeholder = "Search" }: Props) {
             width={16}
             height={16}
             viewBox="0 0 24 24"
-            aria-label="Arama simgesi"
+            aria-label="Search icon"
             role="img"
             fill="#767676"
           >

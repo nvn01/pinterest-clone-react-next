@@ -48,11 +48,14 @@ export default function Overlay({ image }: OverlayProps) {
     return () => window.removeEventListener("resize", updateContainerHeight);
   }, [image.width, image.height, imageLoaded]);
 
-  const toggleModal = (type: "share" | "options") => {
+  const toggleModal = (type: "share" | "options", e: React.MouseEvent) => {
+    e.stopPropagation(); // Stop event from bubbling up
     if (type === "share") {
       setShareboxModal(!shareboxModal);
+      setOptionsModal(false); // Close other modal
     } else {
       setOptionsModal(!optionsModal);
+      setShareboxModal(false); // Close other modal
     }
 
     if (optionButtonRef.current) {
@@ -61,16 +64,17 @@ export default function Overlay({ image }: OverlayProps) {
     }
   };
 
-  const goPin = (imageId: string) => {
-    router.push(`/pin/${imageId}`);
+  const goPin = () => {
+    router.push(`/pin/${image.id}`);
   };
 
   return (
     <div
       ref={containerRef}
-      className="relative w-full overflow-hidden rounded-2xl"
+      className="relative w-full overflow-hidden rounded-2xl cursor-zoom-in"
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
+      onClick={goPin} // Move click handler to container
     >
       {hover && <SaveBox />}
 
@@ -83,9 +87,12 @@ export default function Overlay({ image }: OverlayProps) {
       />
 
       {hover && (
-        <div className="absolute bottom-4 right-4 flex gap-2.5 z-10">
+        <div
+          className="absolute bottom-4 right-4 flex gap-2.5 z-20"
+          onClick={(e) => e.stopPropagation()} // Prevent click from bubbling to container
+        >
           <button
-            onClick={() => toggleModal("share")}
+            onClick={(e) => toggleModal("share", e)}
             className="w-8 h-8 flex items-center justify-center bg-white bg-opacity-90 rounded-full hover:bg-opacity-80 transition-colors"
           >
             <ShareIcon size="16" />
@@ -94,7 +101,7 @@ export default function Overlay({ image }: OverlayProps) {
 
           <button
             ref={optionButtonRef}
-            onClick={() => toggleModal("options")}
+            onClick={(e) => toggleModal("options", e)}
             className="w-8 h-8 flex items-center justify-center bg-white bg-opacity-90 rounded-full hover:bg-opacity-80 transition-colors"
           >
             <ThreedotIcon size="16" />
@@ -119,11 +126,6 @@ export default function Overlay({ image }: OverlayProps) {
           )}
         </div>
       )}
-
-      <div
-        className="absolute inset-0 bg-black bg-opacity-10 rounded-2xl cursor-zoom-in"
-        onClick={() => goPin(image.id)}
-      />
     </div>
   );
 }

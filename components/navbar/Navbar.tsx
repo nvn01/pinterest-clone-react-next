@@ -1,5 +1,4 @@
 // components/navbar/Navbar.tsx
-
 "use client";
 
 import React from "react";
@@ -15,11 +14,13 @@ export default function Navbar() {
         display: "flex",
         width: "100%",
         background: "white",
-        padding: "8px 20px",
+        padding: "4px 16px",
         position: "fixed",
         top: 0,
-        height: 80,
+        height: 72,
         alignItems: "center",
+        justifyContent: "space-between",
+        gap: "8px",
         zIndex: 6,
         boxSizing: "border-box",
       }}

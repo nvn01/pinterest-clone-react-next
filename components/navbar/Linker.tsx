@@ -9,8 +9,20 @@ export default function Linker() {
   const pathname = usePathname();
 
   return (
-    <div className="linker container" style={{ display: "flex", gap: 5 }}>
-      <Link href="/" style={logoStyle}>
+    <div className="linker flex items-center gap-1.5">
+      <Link
+        href="/"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          width: 48,
+          height: 48,
+          borderRadius: "100%",
+          boxSizing: "border-box",
+          justifyContent: "center",
+          cursor: "pointer",
+        }}
+      >
         <img src="/images/logo.png" alt="Logo" width={24} height={24} />
       </Link>
 
@@ -28,14 +40,3 @@ export default function Linker() {
     </div>
   );
 }
-
-const logoStyle: React.CSSProperties = {
-  display: "flex",
-  alignItems: "center",
-  width: 48,
-  height: 48,
-  borderRadius: "100%",
-  boxSizing: "border-box",
-  justifyContent: "center",
-  cursor: "pointer",
-};

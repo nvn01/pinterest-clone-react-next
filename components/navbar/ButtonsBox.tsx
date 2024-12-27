@@ -19,14 +19,22 @@ export default function ButtonsBox() {
   const [optionsModal, setOptionsModal] = useState(false);
 
   return (
-    <div className="buttons container flex gap-2 items-center justify-end">
+    <div className="buttons flex gap-1.5 items-center shrink-0">
       {/* 1. UPDATES BUTTON */}
       <div
         className="icon hover:bg-gray-100 rounded-full"
         tabIndex={0}
         onFocus={() => setUpdatesModal(true)}
         onBlur={() => setUpdatesModal(false)}
-        style={iconContainerStyle}
+        style={{
+          width: "48px",
+          height: "48px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          cursor: "pointer",
+          position: "relative",
+        }}
       >
         <UpdateIcon size={24} />
         <UpdatesModal show={updatesModal} />
@@ -38,7 +46,15 @@ export default function ButtonsBox() {
         tabIndex={0}
         onFocus={() => setInboxModal(true)}
         onBlur={() => setInboxModal(false)}
-        style={iconContainerStyle}
+        style={{
+          width: "48px",
+          height: "48px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          cursor: "pointer",
+          position: "relative",
+        }}
       >
         <MessageIcon size={24} />
         <InboxModal show={inboxModal} />
@@ -48,10 +64,37 @@ export default function ButtonsBox() {
       <Link
         href="/profile"
         className="hover:bg-gray-100 rounded-full"
-        style={iconContainerStyle}
+        style={{
+          width: "48px",
+          height: "48px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          cursor: "pointer",
+          position: "relative",
+        }}
       >
-        <div style={profileCircleStyle}>
-          <span style={profileTextStyle}>R</span>
+        <div
+          style={{
+            width: "24px",
+            height: "24px",
+            borderRadius: "50%",
+            backgroundColor: "#efefef",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <span
+            style={{
+              fontSize: "14px",
+              fontWeight: "600",
+              color: "#111",
+              lineHeight: "1",
+            }}
+          >
+            R
+          </span>
         </div>
       </Link>
 
@@ -61,7 +104,15 @@ export default function ButtonsBox() {
         tabIndex={0}
         onFocus={() => setOptionsModal(true)}
         onBlur={() => setOptionsModal(false)}
-        style={iconContainerStyle}
+        style={{
+          width: "48px",
+          height: "48px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          cursor: "pointer",
+          position: "relative",
+        }}
       >
         <DownIcon size={12} />
         <OptionsModal type="down" show={optionsModal}>
@@ -83,30 +134,3 @@ export default function ButtonsBox() {
     </div>
   );
 }
-
-const iconContainerStyle: React.CSSProperties = {
-  width: "48px",
-  height: "48px",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  cursor: "pointer",
-  position: "relative",
-};
-
-const profileCircleStyle: React.CSSProperties = {
-  width: "24px",
-  height: "24px",
-  borderRadius: "50%",
-  backgroundColor: "#efefef",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-};
-
-const profileTextStyle: React.CSSProperties = {
-  fontSize: "14px",
-  fontWeight: "600",
-  color: "#111",
-  lineHeight: "1",
-};

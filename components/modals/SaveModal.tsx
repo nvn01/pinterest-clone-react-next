@@ -8,7 +8,6 @@ interface SaveModalProps {
   show?: boolean;
 }
 
-// Sample list of boards
 const DUMMY_BOARDS = Array(10).fill("BuzzFeed");
 
 export default function SaveModal({ show = false }: SaveModalProps) {
@@ -18,13 +17,12 @@ export default function SaveModal({ show = false }: SaveModalProps) {
     <div
       className="modal"
       style={{
-        position: "absolute",
-        zIndex: 9,
+        position: "fixed", // Changed from absolute to fixed
+        zIndex: 9999, // Increased z-index
         width: 300,
         height: 375,
         background: "white",
-        left: "-50px",
-        top: "55px",
+        transform: "translateX(-50px) translateY(55px)", // Using transform instead of left/top
         borderRadius: 16,
         boxShadow: "rgba(0, 0, 0, 0.1) -3px 4px 14px 0px",
         display: "flex",

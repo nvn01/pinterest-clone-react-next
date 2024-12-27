@@ -30,7 +30,7 @@ export default function ShareBoxModal({
       className="modal"
       style={{
         position: "absolute",
-        zIndex: 9,
+        zIndex: -10000,
         width: 325,
         height: 350,
         background: "white",
