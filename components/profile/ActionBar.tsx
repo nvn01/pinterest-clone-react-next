@@ -41,11 +41,11 @@ export default function ActionBar({ switchTab }: ActionBarProps) {
     <div
       className="action-bar"
       style={{
-        padding: "16px 16px 0",
+        padding: "16px 16px 16px 0",
         position: "sticky",
-        top: 80,
+        top: 70,
         background: "white",
-        zIndex: 3,
+        zIndex: 100,
       }}
     >
       <div
