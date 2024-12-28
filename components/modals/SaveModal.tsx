@@ -17,19 +17,18 @@ export default function SaveModal({ show = false }: SaveModalProps) {
     <div
       className="modal"
       style={{
-        position: "fixed", // Changed from absolute to fixed
-        zIndex: 9999, // Increased z-index
+        position: "fixed",
+        zIndex: "var(--z-modal)",
         width: 300,
         height: 375,
         background: "white",
-        transform: "translateX(-50px) translateY(55px)", // Using transform instead of left/top
+        transform: "translateX(-50px) translateY(55px)",
         borderRadius: 16,
         boxShadow: "rgba(0, 0, 0, 0.1) -3px 4px 14px 0px",
         display: "flex",
         flexDirection: "column",
       }}
     >
-      {/* Search + boards */}
       <div style={{ padding: "15px 16px" }}>
         <SearchBox placeholder="All boards" />
         <div style={{ marginTop: 10, fontSize: 14, fontWeight: 400 }}>

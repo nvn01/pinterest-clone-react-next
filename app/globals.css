@@ -5,13 +5,28 @@
 html,
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", etc.;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
 }
 
+:root {
+  --z-base: 1;
+  --z-image: 10;
+  --z-overlay: 20;
+  --z-buttons: 30;
+  --z-dropdown: 40;
+  --z-modal: 50;
+  --z-navbar: 100;
+  --z-navbar-modal: 110;
+}
+
+/* Masonry Grid Styles */
 .my-masonry-grid {
   display: flex;
   margin-left: -16px;
   width: auto;
+  margin-top: 80px;
 }
 
 .my-masonry-grid_column {
@@ -23,6 +38,19 @@ body {
   margin-bottom: 16px;
   break-inside: avoid;
   position: relative;
+  isolation: isolate;
+  z-index: var(--z-base);
+}
+
+/* Save Buttons Container */
+.save-buttons-container {
+  position: relative;
+  z-index: var(--z-dropdown);
+}
+
+/* Board Selector */
+.board-selector {
+  z-index: var(--z-dropdown) !important;
 }
 
 /* Enhanced hover effects with proper z-indexing */
@@ -31,7 +59,6 @@ body {
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.2s ease-in-out;
-  z-index: 20;
 }
 
 .stack-item:hover .board-selector,
@@ -42,36 +69,155 @@ body {
 
 /* Image and overlay styles */
 .stack-item img {
-  transition: brightness 0.2s ease-in-out;
   position: relative;
-  z-index: 10;
+  z-index: var(--z-image);
+  transition: brightness 0.2s ease-in-out;
 }
 
 .stack-item:hover img {
-  brightness: 0.95;
+  filter: brightness(0.95);
 }
 
-/* Modal z-index hierarchy */
-.modal {
-  z-index: 30;
-}
-
+/* Modal Styles */
 .save-modal-container {
-  z-index: 40;
+  z-index: var(--z-modal) !important;
 }
 
-/* Ensure proper stacking context */
-.stack-item {
-  isolation: isolate;
+.modal {
+  position: fixed;
+  z-index: var(--z-modal);
 }
 
-/* Ensure modals don't interfere with clicking */
-[role="dialog"] {
-  z-index: 50;
+/* Navbar specific modals */
+#navbar .modal {
+  z-index: var(--z-navbar-modal);
+}
+
+.modal-content {
   position: relative;
+  z-index: calc(var(--z-modal) + 1);
+  background: white;
+  border-radius: 16px;
+  box-shadow: rgba(0, 0, 0, 0.1) -3px 4px 14px 0px;
 }
 
 /* Prevent hover state issues */
 .stack-item:hover {
-  z-index: 1;
+  z-index: var(--z-overlay);
+}
+
+/* Button styles */
+.button-link {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.button-link:hover {
+  filter: brightness(0.95);
+}
+
+/* Option Modal Styles */
+.option-sec {
+  padding: 8px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.gray-hover:hover {
+  background-color: #f0f0f0;
+  border-radius: 8px;
+}
+
+.sub-title {
+  color: #767676;
+  font-weight: normal;
+}
+
+.normal-title {
+  color: #111;
+  font-weight: normal;
+}
+
+/* Share Box Modal Positioning */
+.share-box-left {
+  transform: translateX(-100%) translateY(-50%);
+}
+
+.share-box-right {
+  transform: translateX(0) translateY(-50%);
+}
+
+/* Utility Classes */
+.red {
+  color: #fff;
+  background-color: #e60023;
+}
+
+/* Save Box Button */
+.save-button button:hover {
+  filter: brightness(0.9);
+  transition: filter 0.2s ease;
+}
+
+/* Board Selector Button */
+.board-selector button:hover {
+  filter: brightness(0.95);
+  transition: filter 0.2s ease;
+}
+
+/* Modal Portal Container */
+.modal-portal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: var(--z-modal);
+}
+
+.modal-portal > * {
+  pointer-events: auto;
+}
+
+/* Modal backdrop */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: calc(var(--z-modal) - 1);
+}
+
+/* Feed container spacing */
+.feed {
+  width: 100%;
+  max-width: 1800px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Dropdown Menu Animation */
+@keyframes dropdownFade {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dropdown-animation {
+  animation: dropdownFade 0.2s ease-out forwards;
+}
+
+/* Modal Scrollable List */
+.modal-scrollable-list {
+  max-height: calc(100% - 140px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }

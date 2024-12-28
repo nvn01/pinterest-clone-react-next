@@ -15,7 +15,6 @@ export default function OptionsModal({
 }: OptionsModalProps) {
   if (!show) return null;
 
-  // We can do some condition-based style logic here
   let positionStyle: React.CSSProperties = {};
   switch (type) {
     case "down":
@@ -30,7 +29,6 @@ export default function OptionsModal({
     case "right":
       positionStyle = { top: "-50px", right: "-210px" };
       break;
-    // Add more as needed...
   }
 
   return (
@@ -39,7 +37,7 @@ export default function OptionsModal({
       style={{
         position: "absolute",
         background: "white",
-        zIndex: 7,
+        zIndex: "var(--z-modal)",
         width: 200,
         borderRadius: 16,
         boxShadow: "rgba(0, 0, 0, 0.1) -3px 4px 14px 0px",

@@ -8,7 +8,6 @@ export default function SaveBox() {
   const buttonRef = useRef<HTMLDivElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
 
-  // Handle clicks outside to close the modal
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (
@@ -33,7 +32,10 @@ export default function SaveBox() {
   };
 
   return (
-    <>
+    <div
+      className="save-buttons-container"
+      style={{ position: "relative", zIndex: "var(--z-dropdown)" }}
+    >
       {/* Left Board Selector Button */}
       <div
         className="board-selector"
@@ -41,7 +43,7 @@ export default function SaveBox() {
           position: "absolute",
           top: 16,
           left: 16,
-          zIndex: 20,
+          zIndex: "var(--z-dropdown)",
         }}
       >
         <div ref={buttonRef} className="relative">
@@ -60,7 +62,7 @@ export default function SaveBox() {
               cursor: "pointer",
               boxShadow: "0 0 8px rgba(0, 0, 0, 0.1)",
               position: "relative",
-              zIndex: 21,
+              zIndex: "var(--z-dropdown)",
             }}
             className="hover:brightness-95 transition-all"
           >
@@ -93,7 +95,7 @@ export default function SaveBox() {
                 top: "100%",
                 left: 0,
                 marginTop: "8px",
-                zIndex: 999,
+                zIndex: "var(--z-modal)",
               }}
             >
               <SaveModal show={showSaveModal} />
@@ -109,7 +111,7 @@ export default function SaveBox() {
           position: "absolute",
           top: 16,
           right: 16,
-          zIndex: 20,
+          zIndex: "var(--z-buttons)",
         }}
       >
         <button
@@ -133,6 +135,6 @@ export default function SaveBox() {
           Save
         </button>
       </div>
-    </>
+    </div>
   );
 }

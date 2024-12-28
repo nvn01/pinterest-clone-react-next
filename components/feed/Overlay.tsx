@@ -49,18 +49,18 @@ export default function Overlay({ image }: OverlayProps) {
   }, [image.width, image.height, imageLoaded]);
 
   const toggleModal = (type: "share" | "options", e: React.MouseEvent) => {
-    e.stopPropagation(); // Stop event from bubbling up
+    e.stopPropagation();
     if (type === "share") {
       setShareboxModal(!shareboxModal);
-      setOptionsModal(false); // Close other modal
+      setOptionsModal(false);
     } else {
       setOptionsModal(!optionsModal);
-      setShareboxModal(false); // Close other modal
+      setShareboxModal(false);
     }
 
     if (optionButtonRef.current) {
-      const xPos = optionButtonRef.current.getBoundingClientRect().x;
-      setAngle(xPos > window.innerWidth / 2 ? "left" : "right");
+      const rect = optionButtonRef.current.getBoundingClientRect();
+      setAngle(rect.x > window.innerWidth / 2 ? "left" : "right");
     }
   };
 
@@ -71,10 +71,14 @@ export default function Overlay({ image }: OverlayProps) {
   return (
     <div
       ref={containerRef}
-      className="relative w-full overflow-hidden rounded-2xl cursor-zoom-in"
+      className="relative w-full overflow-hidden rounded-2xl cursor-zoom-in group"
       onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-      onClick={goPin} // Move click handler to container
+      onMouseLeave={() => {
+        setHover(false);
+        setOptionsModal(false);
+        setShareboxModal(false);
+      }}
+      onClick={goPin}
     >
       {hover && <SaveBox />}
 
@@ -88,42 +92,52 @@ export default function Overlay({ image }: OverlayProps) {
 
       {hover && (
         <div
-          className="absolute bottom-4 right-4 flex gap-2.5 z-20"
-          onClick={(e) => e.stopPropagation()} // Prevent click from bubbling to container
+          className="absolute bottom-4 right-4 flex gap-2.5"
+          style={{ zIndex: "var(--z-buttons)" }}
         >
-          <button
-            onClick={(e) => toggleModal("share", e)}
-            className="w-8 h-8 flex items-center justify-center bg-white bg-opacity-90 rounded-full hover:bg-opacity-80 transition-colors"
-          >
-            <ShareIcon size="16" />
-          </button>
-          {shareboxModal && <ShareBoxModal type={angle} show={shareboxModal} />}
-
-          <button
-            ref={optionButtonRef}
-            onClick={(e) => toggleModal("options", e)}
-            className="w-8 h-8 flex items-center justify-center bg-white bg-opacity-90 rounded-full hover:bg-opacity-80 transition-colors"
-          >
-            <ThreedotIcon size="16" />
-          </button>
-          {optionsModal && (
-            <OptionsModal type={angle} show={optionsModal}>
-              <div className="p-2">
-                <div className="sub-title option-sec">
-                  This Pin was inspired by your recent activity
-                </div>
-                <div className="normal-title option-sec gray-hover">
-                  Hide Pin
-                </div>
-                <div className="normal-title option-sec gray-hover">
-                  Download Pin
-                </div>
-                <div className="normal-title option-sec gray-hover">
-                  Report Pin
-                </div>
+          <div className="relative">
+            <button
+              onClick={(e) => toggleModal("share", e)}
+              className="w-8 h-8 flex items-center justify-center bg-white bg-opacity-90 rounded-full hover:bg-opacity-80 transition-colors"
+            >
+              <ShareIcon size="16" />
+            </button>
+            {shareboxModal && (
+              <div className="fixed" style={{ zIndex: "var(--z-modal)" }}>
+                <ShareBoxModal type={angle} show={shareboxModal} />
               </div>
-            </OptionsModal>
-          )}
+            )}
+          </div>
+
+          <div className="relative">
+            <button
+              ref={optionButtonRef}
+              onClick={(e) => toggleModal("options", e)}
+              className="w-8 h-8 flex items-center justify-center bg-white bg-opacity-90 rounded-full hover:bg-opacity-80 transition-colors"
+            >
+              <ThreedotIcon size="16" />
+            </button>
+            {optionsModal && (
+              <div className="fixed" style={{ zIndex: "var(--z-modal)" }}>
+                <OptionsModal type={angle} show={optionsModal}>
+                  <div className="p-2">
+                    <div className="sub-title option-sec">
+                      This Pin was inspired by your recent activity
+                    </div>
+                    <div className="normal-title option-sec gray-hover">
+                      Hide Pin
+                    </div>
+                    <div className="normal-title option-sec gray-hover">
+                      Download Pin
+                    </div>
+                    <div className="normal-title option-sec gray-hover">
+                      Report Pin
+                    </div>
+                  </div>
+                </OptionsModal>
+              </div>
+            )}
+          </div>
         </div>
       )}
     </div>

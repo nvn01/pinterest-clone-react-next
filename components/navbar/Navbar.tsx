@@ -21,7 +21,7 @@ export default function Navbar() {
         alignItems: "center",
         justifyContent: "space-between",
         gap: "8px",
-        zIndex: 6,
+        zIndex: "var(--z-navbar)",
         boxSizing: "border-box",
       }}
     >
