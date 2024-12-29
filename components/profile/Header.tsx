@@ -20,11 +20,11 @@ export default function Header() {
           fontWeight: 600,
         }}
       >
-        <span>R</span>
+        <img src="/images/logo.png" alt="" />
       </div>
       <div className="name" style={{ marginTop: 10 }}>
         <h1 style={{ fontSize: 36, fontWeight: 700, margin: 0 }}>
-          Ramazan Kapar
+          Novandra Anugrah
         </h1>
       </div>
       <div className="follower-box" style={{ marginTop: 5 }}>

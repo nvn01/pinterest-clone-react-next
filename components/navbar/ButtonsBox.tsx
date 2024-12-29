@@ -93,7 +93,7 @@ export default function ButtonsBox() {
               lineHeight: "1",
             }}
           >
-            R
+            <img src="/images/logo.png" alt="" />
           </span>
         </div>
       </Link>
